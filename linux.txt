@@ -1,0 +1,42 @@
+ssh秘钥登录
+A B 两台Linux系统的pc
+首相在A中：
+ssh-keygen -t rsa 连续点击3次回车即可生成公钥跟私钥
+将生成的公钥考到B中，在B中：
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+在.ssh目录中touch authorized_keys 
+chmod 600 authorized_keys;
+cat id_rsa.pub >> authorized_keys
+则在A中ssh root$ip地址 即可登录B,无需输入密码
+ssh-keygen参数说明
+-b：指定密钥长度； 
+-e：读取openssh的私钥或者公钥文件； 
+-C：添加注释； 
+-f：指定用来保存密钥的文件名；
+-i：读取未加密的ssh-v2兼容的私钥/公钥文件，然后在标准输出设备上显示openssh兼容的私钥/公钥； -l：显示公钥文件的指纹数据；
+ -N：提供一个新密语； 
+ -P：提供（旧）密语； 
+ -q：静默模式； 
+ -t：指定要创建的密钥类型。
+
+
+
+在两台linux终端间传输文件,如A,B
+条件：A B 间能ping通
+在本地A拷贝远端的服务器B上的文件：
+scp root@[B的ip地址或主机名]：[B上存放文件路径] /文件 [A上存放的文件路径]
+如：
+scp  root@192.168.3.58：/home/oracle/test.sql  /home/oracle
+在本地A拷贝远端的服务器B上的文件夹及文件夹下的文件：
+scp -r root@[B的ip地址或主机名]：[B上存放文件路径]   [A上存放的文件路径]
+如：
+scp -r root@192.168.3.58:/test  /test
+
+
+
+安装docker之前首先 wget https://yum.dockerproject.org/gpg
+下载PKI证书文件
+然后将证书文件移到 /usr/local/docker.gpg
+
+ 手工导入docker的PKI公钥证书 rpm --import /usr/local/docker.gpg
